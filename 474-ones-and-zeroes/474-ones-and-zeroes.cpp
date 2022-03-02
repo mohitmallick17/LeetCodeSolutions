@@ -1,6 +1,4 @@
 class Solution {
-    int dp[601][101][101];
-    
     pair<int, int> getDigitCount(string &s){
         int z=0, o=0;
         for(char& c:s){
@@ -10,28 +8,27 @@ class Solution {
         return {z,o};
     }
     
-    int solve(int i, int m, int n, vector<string>& strs){
-        if(i==strs.size() or (m==0 and n==0)){
-            return 0;
-        }
-        if(dp[i][m][n] != -1)return dp[i][m][n];
-        pair<int, int> dc = getDigitCount(strs[i]);
-        
-        int incl_m=m, incl_n=n;
-        int excl_m=m, excl_n=n;
-        bool flag=false;
-        
-        if(dc.first <= m and dc.second <= n)
-            incl_m -= dc.first, incl_n -= dc.second, flag=true;
-        
-        if(flag)
-            return dp[i][m][n] = max(solve(i+1, excl_m, excl_n, strs), 1 + solve(i+1, incl_m, incl_n, strs));
-        else
-            return dp[i][m][n] = solve(i+1, excl_m, excl_n, strs);
-    }
 public:
     int findMaxForm(vector<string>& strs, int m, int n) {
-        memset(dp, -1, sizeof(dp));
-        return solve(0, m, n, strs);
+        int len=strs.size();
+
+        int dp[len+1][m+1][n+1];
+        memset(dp, 0, sizeof(dp));
+        
+        for(int i=1;i<=len;i++){
+            for(int j=0;j<=m;j++){
+                for(int k=0;k<=n;k++){
+                    pair<int, int> p = getDigitCount(strs[i-1]);
+                    int zeros=p.first;
+                    int ones=p.second;
+                    
+                    int res = dp[i-1][j][k];
+                    if(zeros <= j and ones <= k)
+                        res = max(res, dp[i-1][j-zeros][k-ones] + 1);
+                    dp[i][j][k] = res;
+                }
+            }
+        }
+        return dp[len][m][n];
     }
 };
