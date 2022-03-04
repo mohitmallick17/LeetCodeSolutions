@@ -2,21 +2,25 @@ class Solution {
 public:
     int minSwap(vector<int>& nums1, vector<int>& nums2) {
         int n=nums1.size();
-        vector<int> doswap(n), noswap(n);
-        noswap[0]=0;
-        doswap[0]=1;
+        int prev_doswap, prev_noswap;
+        prev_noswap=0;
+        prev_doswap=1;
         
         for(int i=1;i<n;i++){
-            doswap[i]=n, noswap[i]=n;
+            int cur_doswap, cur_noswap;
+            cur_doswap=n, cur_noswap=n;
+            
             if(nums1[i] > nums1[i-1] and nums2[i] > nums2[i-1]){
-                noswap[i]=noswap[i-1];
-                doswap[i]=doswap[i-1]+1;
+                cur_noswap=prev_noswap;
+                cur_doswap=prev_doswap+1;
             }
             if(nums1[i] > nums2[i-1] and nums2[i] > nums1[i-1]){
-                doswap[i] = min(doswap[i], noswap[i-1]+1);
-                noswap[i] = min(noswap[i], doswap[i-1]);
+                cur_doswap = min(cur_doswap, prev_noswap+1);
+                cur_noswap = min(cur_noswap, prev_doswap);
             }
+            prev_doswap=cur_doswap;
+            prev_noswap=cur_noswap;
         }
-        return min(doswap[n-1], noswap[n-1]);
+        return min(prev_doswap, prev_noswap);
     }
 };
