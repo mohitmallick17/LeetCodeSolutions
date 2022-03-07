@@ -1,9 +1,9 @@
 class Solution {
     int solve(int i, int limit, vector<int>& nums2, unordered_map<int, vector<int>> &nums1
-              ,vector<unordered_map<int, int>> &dp) {
+              ,vector<vector<int>> &dp) {
         if(i >= nums2.size())return 0;
         
-        if(dp[i].find(limit) != dp[i].end())return dp[i][limit];
+        if(dp[i][limit] != -1)return dp[i][limit];
         if(nums1.find(nums2[i]) == nums1.end())
             return dp[i][limit]=solve(i+1, limit, nums2, nums1, dp);
         
@@ -22,7 +22,7 @@ public:
         for(int i=0;i<nums1.size();i++){
             mp[nums1[i]].push_back(i);
         }
-        vector<unordered_map<int, int>> dp(nums2.size());
+        vector<vector<int>> dp(nums2.size(), vector<int>(nums1.size()+1, -1));
         return solve(0, 0, nums2, mp, dp);
     }
 };
