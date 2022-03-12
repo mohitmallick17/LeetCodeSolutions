@@ -14,13 +14,13 @@ class Solution {
     void solve(TreeNode* root){
         if(!root)return;
         solve(root->right);
-        int tmp = root->val;
-        root->val += s;
-        s += tmp;
+        s = root->val += s;
+        // s = root->val;
         solve(root->left);
     }
 public:
-    TreeNode* bstToGst(TreeNode* root, int S=0) {
+    TreeNode* bstToGst(TreeNode* root) {
+        s = 0;
         solve(root);
         return root;
     }
