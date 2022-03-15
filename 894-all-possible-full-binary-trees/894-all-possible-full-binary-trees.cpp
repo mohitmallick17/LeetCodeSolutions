@@ -30,7 +30,7 @@ class Solution {
                 }
             }            
         }
-        return res;        
+        return dp[n]=res;        
     }
 public:
     vector<TreeNode*> allPossibleFBT(int n) {
