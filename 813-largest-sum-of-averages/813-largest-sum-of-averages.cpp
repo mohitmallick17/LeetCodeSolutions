@@ -8,18 +8,20 @@ class Solution {
         
         return ans;
     }
-    double solve(int i, int k, vector<int> &presum){
-        if(i==presum.size()){
+    double solve(int i, int k, vector<int> &presum, int n){
+        if(i==n){
             return 0.0;
         }
-        if(k==0)
-            return INT_MIN;
+        if(k==1){
+            int prev = (i>0) ? presum[i-1] : 0;
+            return (double)(presum[n-1]-prev)/(n-i);
+        }
         if(dp[i][k] != -1)return dp[i][k];
         double ans = 0.0;
         
-        for(int idx = i;idx<presum.size();idx++){
+        for(int idx = i;idx<n;idx++){
             double cur = getSum(presum, i, idx);
-            cur += solve(idx+1, k-1, presum);
+            cur += solve(idx+1, k-1, presum, n);
             
             ans = max(ans, cur);
         }
@@ -33,6 +35,6 @@ public:
         presum[0]=nums[0];
         for(int i=1;i<n;i++)
             presum[i]=presum[i-1]+nums[i];
-        return solve(0, k, presum);
+        return solve(0, k, presum,n);
     }
 };
