@@ -5,23 +5,23 @@ using namespace std;
  // } Driver Code Ends
 class Solution{   
 public:
-    string previousNumber(string s){
-        int i = s.size()-2;
-        while(i>=0 and s[i]<=s[i+1]){
+    string previousNumber(string S){
+        int i=S.size()-2;
+        while(i >= 0 and S[i+1] >= S[i])
             i--;
+        if(i==-1)return "-1";
+        
+        char prev = 1;
+        int previ = -1;
+        for(int j=S.size()-1;j>i;j--){
+            if(S[i] > S[j] and prev <= S[j]){
+                prev = S[j];
+                previ=j;
+            }
         }
-        if(i<0) return "-1";
-        int j = s.size()-1;
-        while(j>i and (s[i] <= s[j])){
-            j--;
-        }
-        while(j>0 and s[j-1] == s[j]){
-            j--;
-        }
-        //cout<<i<<"  "<<j<<"   ";
-        swap(s[i], s[j]);
-        if(s[0] == '0') return "-1";
-        return s;
+        if(prev=='0' and i==0)return "-1";
+        swap(S[i], S[previ]);
+        return S;
     }
 };
 
