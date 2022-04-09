@@ -97,45 +97,59 @@ struct Node
 */
 
 class Solution{
+    Node* getTargetNode(Node* root, unordered_map<Node*, Node*> &parent, int target){
+        queue<pair<Node*, Node*>> q; // pair(node, parent)
+        q.push({root, NULL});
+        Node* t;
+        while(!q.empty()){
+            auto node = q.front().first;
+            auto par = q.front().second;
+            q.pop();
+            parent[node] = par;
+
+            if(node->data == target)
+                t=node;
+
+            if(node->left)
+                q.push({node->left, node});
+            if(node->right)
+                q.push({node->right, node});
+        }
+        return t;
+    }
 public:
-    unordered_map<Node*,Node*>Map;
-   unordered_map<Node*, bool>vis;
-   Node* node;
-   int sum = 0;
-public:
-   void getTargetNode(Node* p,Node* root,int t){
-       if(!root) return;
-       
-       Map[root] = p;
-       if(root->data == t){
-           node = root;
-           return;
-       }
-       
-       getTargetNode(root,root->left, t);
-       getTargetNode(root,root->right,t);
-       
-       return;
-   }
-   void getTheSumofAllKthNode(Node* root,int k){
-       if(!root || k < 0) return;
-       if(vis.find(root) != vis.end()) return;
-       
-       vis[root] = true;
-       sum += root->data;
-       
-       getTheSumofAllKthNode(Map[root] ,k-1);
-       getTheSumofAllKthNode(root->left,k-1);
-       getTheSumofAllKthNode(root->right,k-1);
-       
-       return;
-   }
-   int sum_at_distK(Node* root, int t, int k)
-   {
-       getTargetNode(NULL,root,t);
-       getTheSumofAllKthNode(node,k);
-       return sum;
-   }
+    int sum_at_distK(Node* root, int target, int k){
+        unordered_map<Node*, Node*> parent;
+        Node* t = getTargetNode(root, parent, target);
+        
+        unordered_set<Node*> visited;
+        queue<Node*> q;
+        q.push(t);
+        visited.insert(t);
+        long long res = 0;
+        k++;
+        while(!q.empty() and k--){
+            int size=q.size();
+            while(size--){
+                auto node = q.front();
+                q.pop();
+                res += node->data;
+                if(node->left and visited.find(node->left) == visited.end()){
+                    q.push(node->left);
+                    visited.insert(node->left);
+                }
+                if(node->right and visited.find(node->right) == visited.end()){
+                    q.push(node->right);
+                    visited.insert(node->right);
+                }
+                if(parent[node] and visited.find(parent[node]) == visited.end()){
+                    q.push(parent[node]);
+                    visited.insert(parent[node]);
+                }
+            }
+        }
+        return res;
+    }
 };
 
 
