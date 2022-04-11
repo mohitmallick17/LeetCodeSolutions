@@ -7,45 +7,43 @@ using namespace std;
 class Solution{
  
 	public:
-	int numberOfCells(int n, int m, int r, int c, int u, int d, vector<vector<char>> &mat){
+	int numberOfCells(int m, int n, int r, int c, int u, int d, vector<vector<char>> &mat){
 	    if(mat[r][c] == '#')return 0;
 	    queue<vector<int>> q;
 	    q.push({r, c, 0, 0});
-	    int count = 1;
-	    mat[r][c]='1';
+	    int res = 1;
+	    mat[r][c]='*';
 	    
 	    while(!q.empty()){
-	        int x=q.front()[0];
-		    int y=q.front()[1];
-		    int up=q.front()[2];
-		    int down=q.front()[3];
-		    q.pop();
-		    if(y-1>=0 && mat[x][y-1]=='.')
-		    {
-		        q.push({x,y-1,up,down});
-		        mat[x][y-1]='1';
-		        count++;
-		    }
-		    if(y+1<m && mat[x][y+1]=='.')
-		    {
-		        q.push({x,y+1,up,down});
-		        mat[x][y+1]='1';
-		        count++;
-		    }
-		    if(x-1>=0 && up!=u && mat[x-1][y]=='.')
-		    {
-		        q.push({x-1,y,up+1,down});
-		        mat[x-1][y]='1';
-		        count++;
-		    }
-		    if(x+1<n && down!=d && mat[x+1][y]=='.')
-		    {
-		        q.push({x+1,y,up,down+1});
-		        mat[x+1][y]='1';
-		        count++;
-		    }
+	        auto v = q.front();
+	        int i=v[0], j=v[1], uu=v[2], dd=v[3];
+	        q.pop();
+	        // left
+	        if(j-1>=0 and mat[i][j-1]=='.'){
+	            q.push({i, j-1, uu, dd});
+	            mat[i][j-1]='*';
+    	        res++;
+	        }
+	        // right
+	        if(j+1<n and mat[i][j+1]=='.'){
+	            q.push({i, j+1, uu, dd});
+        	    mat[i][j+1]='*';
+    	        res++;
+	        }
+	        // up
+	        if(i-1>=0 and uu<u and mat[i-1][j]=='.'){
+	            q.push({i-1, j, uu+1, dd});
+	            mat[i-1][j]='*';
+    	        res++;
+	        }
+	        // down
+	        if(i+1<m and dd<d and mat[i+1][j]=='.'){
+	            q.push({i+1, j, uu, dd+1});
+	            mat[i+1][j]='*';
+    	        res++;
+	        }
 	    }
-	    return count;
+	    return res;
 	}
 
 };
