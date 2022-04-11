@@ -4,23 +4,18 @@
 using namespace std;
 
  // } Driver Code Ends
-
-int dx[] = {1, 0,-1, 0};
-int dy[] = {0, 1, 0,-1};
 class Solution{
  
 	public:
-	int numberOfCells(int n, int m, int r, int c, int u, int d, vector<vector<char>> &mat)
-	{
-		// Your code goes here
-		queue<vector<int>> q;
-		if(mat[r][c]=='#') return 0;
-		q.push({r,c,0,0});
-		mat[r][c]='1';
-		int count=1;
-		while(!q.empty())
-		{
-		    int x=q.front()[0];
+	int numberOfCells(int n, int m, int r, int c, int u, int d, vector<vector<char>> &mat){
+	    if(mat[r][c] == '#')return 0;
+	    queue<vector<int>> q;
+	    q.push({r, c, 0, 0});
+	    int count = 1;
+	    mat[r][c]='1';
+	    
+	    while(!q.empty()){
+	        int x=q.front()[0];
 		    int y=q.front()[1];
 		    int up=q.front()[2];
 		    int down=q.front()[3];
@@ -49,9 +44,8 @@ class Solution{
 		        mat[x+1][y]='1';
 		        count++;
 		    }
-		}
-		return count;
-		
+	    }
+	    return count;
 	}
 
 };
