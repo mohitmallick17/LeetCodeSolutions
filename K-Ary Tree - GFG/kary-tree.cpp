@@ -8,27 +8,21 @@ using namespace std;
 //User function Template for C++
 
 class Solution {
-    // long long mod = 1e9 + 7;
+    long long mod = 1e9 + 7;
   public:
     long long karyTree(int k, int m) {
-        // long long res=1;
+        long long res=1, kk=k;
         
-        // while(m > 0){
-        //     if()
-        // }
-        long long res = 1, k1 = k, mod = 1e9+7;
-    while(m) {
-        if(m&1) {
-            res *= k1;
-            res %= mod;
-            m--;
-        } else {
-            k1 = k1*k1;
-            k1 %= mod;
-            m /= 2;
+        while(m > 0){
+            if(m%2 == 1){
+                res = (res*kk)%mod;
+                m--;
+            }else{
+                kk = (kk*kk)%mod;
+                m/=2;
+            }
         }
-    }
-    return res;
+        return res;
     }
 };
 
