@@ -12,13 +12,18 @@ class Solution {
   public:
     int findTime(string S1, string S2) {
         // code here
-        unordered_map <int,int> u;
-        for(int i=0; i<26; i++)
-            u[S1[i]] = i;
-        int s = u[S2[0]];
-        for(int i=1; S2[i]!='\0'; i++)
-            s += abs(u[S2[i]]-u[S2[i-1]]);
-        return s;
+        unordered_map<char, int> mp;
+        for(int i=0;i<S1.size();i++)
+            mp[S1[i]]=i;
+        char cur=S1[0];
+        int cost = 0;
+        for(char &c:S2){
+            if(c!=cur){
+                cost += abs(mp[c]-mp[cur]);
+                cur=c;
+            }
+        }
+        return cost;
     }
 };
 
