@@ -27,7 +27,24 @@ public:
         vector<pair<int, int>> cnt(strs.size());
         for(int i=0;i<strs.size();i++)
             cnt[i] = getCnt(strs[i]);   
-        memset(dp, -1, sizeof(dp));
-        return solve(0, cnt, m, n);
+        memset(dp, 0, sizeof(dp));
+        
+        for(int i=1;i<=cnt.size();i++){
+            for(int j=0;j<=m;j++){
+                for(int k=0;k<=n;k++){
+                    int res;
+                    int zeros=cnt[i-1].first, ones=cnt[i-1].second;
+                    if(j >= zeros and k >= ones){
+                        // can include this set, as (m, n) > set(cnt[i])
+                        // choice: include, skip
+                        res = max(dp[i-1][j][k], 1+dp[i-1][j-zeros][k-ones]);
+                    }else
+                        res = dp[i-1][j][k];
+                    dp[i][j][k] = res;
+                }
+            }
+        }
+        
+        return dp[cnt.size()][m][n];
     }
 };
