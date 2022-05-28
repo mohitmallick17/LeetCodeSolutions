@@ -8,18 +8,27 @@ using namespace std;
 //User function Template for C++
 
 class Solution{  
+    int getPar(int c){
+        if(c==1)return 1;
+        return c/2;
+    }
 public:
-    int shortestPath( int x, int y){
-        int cnt=0;
+    int shortestPath( int x, int y){ 
+        if(x==y)return 0;
+        // code here 
+        int lc=0, rc=0;
         
         while(x != y){
-            if(x > y)
-                x /= 2;
-            else
-                y /= 2;
-            cnt++;
+            if(x > y){
+                x = getPar(x);
+                lc++;
+            }
+            else{
+                y = getPar(y); 
+                rc++;
+            }
         }
-        return cnt;
+        return lc+rc;
     }
 };
 
