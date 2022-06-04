@@ -1,60 +1,39 @@
 class Solution {
+    vector<vector<int>> res;
+    void dfs(int node, int parent, vector<int> adj[], vector<bool>& visited, int &timer, vector<int>& tin, vector<int>& low){
+        visited[node]=true;
+        tin[node]=low[node]=timer++;
+        
+        for(auto &nbr:adj[node]){
+            if(nbr==parent)continue;
+            else if(visited[nbr]){
+                // back-edge: ancestor
+                low[node] = min(low[node], tin[nbr]);
+            }else{
+                // forward edge: child
+                dfs(nbr, node, adj, visited, timer, tin, low);
+                low[node] = min(low[node], low[nbr]);
+                if(low[nbr] > tin[node])
+                    res.push_back({node, nbr});
+            }
+        }
+    }
 public:
     vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
-        vector<int> graph[n];
-        for (auto& conn : connections) {
-            graph[conn[0]].push_back(conn[1]);
-            graph[conn[1]].push_back(conn[0]);
+        // find bridges in a graph
+        vector<int> adj[n];
+        for(auto &con:connections){
+            adj[con[0]].push_back(con[1]);
+            adj[con[1]].push_back(con[0]);
         }
         
-        int ranks[n];
-        fill_n(ranks, n, NO_RANK);
-        vector<vector<int>> result;
-        // Because whole graph is connected, there is no need to loop through every node.
-        criticalConnections(graph, n, 0, 0, ranks, result);        
-        
-        return result;
-    }
-private:
-    static const int NO_RANK;
-
-    int criticalConnections(vector<int> graph[], int n, int node, int myRank, int ranks[], vector<vector<int>>& result) {
-        if (ranks[node] != NO_RANK) {
-            return ranks[node];
+        vector<bool> visited(n, false);
+        vector<int> tin(n), low(n);
+        int timer=1;
+        for(int i=0;i<n;i++){
+            if(!visited[i])
+                dfs(i, -1, adj, visited, timer, tin, low);
         }
-
-        int lowestRank = myRank;
-        ranks[node] = myRank;
-        for (auto neighbor : graph[node]) {
-            if (ranks[neighbor] == myRank - 1 || ranks[neighbor] == n) {
-                // ranks[neighbor] == myRank - 1:
-                // Do not go back immediately to parent, this will lead to
-                // parent-child-parent circle immediately.
-                // This is why NO_RANK is set to -2 instead of -1, because the first node of a recursion has myRank 0.
-                //
-                // ranks[neighbor] == n:
-                // Do not include node=>neighbor in the result. Reason:
-                // This can be explained from a couple of aspects:
-                // - This means neighbor has been finished, so neighbor=>node has been decided before neighbor is finished,
-                //   and if neighbor=>node is already decided, we don't need to make a decision on node=>neighbor because
-                //   it is undirected graph.
-                // - When neighbor=>node was decided, the decision must be "not include it in the result", because
-                //   node is an ancestor of neighbor, so neighbor=>node is a back edge, meaning at that time it already
-                //   detected that there is a cycle between neighbor and node, so that edge would not be included in the result.
-                continue;
-            }
-            
-            int neighborRank = criticalConnections(graph, n, neighbor, myRank + 1, ranks, result);
-            lowestRank = min(lowestRank, neighborRank);
-            if (neighborRank > myRank) {
-                result.push_back({min(node, neighbor), max(node, neighbor)});
-            }
-            
-        }
-        
-        ranks[node] = n;
-        return lowestRank;
+        return res;
     }
 };
-
-const int Solution::NO_RANK = -2;
