@@ -11,14 +11,14 @@ class Solution
     vector <int> nearlySorted(int arr[], int n, int k){
         // Your code here
         priority_queue<int, vector<int>, greater<int>> pq;
-        for(int i=0;i<=k;i++)
+        for(int i=0;i<k;i++)
             pq.push(arr[i]);
         vector<int> res;
         
-        for(int i=k+1;i<n;i++){
+        for(int i=k;i<n;i++){
+            pq.push(arr[i]);
             int top = pq.top();
             pq.pop();
-            pq.push(arr[i]);
             res.push_back(top);
         }
         while(!pq.empty()){
