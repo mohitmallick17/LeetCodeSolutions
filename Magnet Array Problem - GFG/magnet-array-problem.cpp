@@ -4,24 +4,24 @@ using namespace std;
 
  // } Driver Code Ends
 class Solution{
-    public:
-    double binary_Search(double low,double high,double a[],int n){
-        while(low<high){
-            double mid = low + (high-low)/2, netForce = 0.0,minForce=(1e-6);
-            for(int i=0;i<n;i++)
-                netForce+= 1/(mid-a[i]);
-            if(netForce>minForce)
-                low=mid;
-            else if(netForce<-minForce)
-                high=mid;
-            else
-                return mid;
+    double BS(double low, double high, double v[], int n){
+        
+        while(low < high){
+            double mid = (low+high)/2;
+            double force = 0.0;
+            for(int i=0;i<n;++i){
+                force += 1/(mid-v[i]);
+            }
+            if(abs(force) <= 0.000001)return mid;
+            else if(force < 0)high=mid;
+            else low=mid;
         }
+        return low;
     }
-    void nullPoints(int n, double a[], double getAnswer[])
-    {
-          for(int i=0;i<n-1;i++)
-            getAnswer[i] = binary_Search(a[i],a[i+1],a,n);
+public:
+    void nullPoints(int n, double magnets[], double getAnswer[]){
+        for(int i=0;i<n-1;i++)
+            getAnswer[i] = BS(magnets[i], magnets[i+1], magnets, n);
     }
 };
 
