@@ -4,24 +4,22 @@ using namespace std;
 
  // } Driver Code Ends
 class Solution{
+    int solve(int start, int Sum, string &s, vector<vector<int>> &dp){
+        if(start == s.size())return 1;
+        if(dp[start][Sum] != -1)return dp[start][Sum];
+        int curSum = 0;
+        int res = 0;
+        for(int i=start;i<s.size();i++){
+            curSum += s[i] - '0';
+            if(curSum >= Sum)
+                res += solve(i+1, curSum, s, dp);
+        }
+        return dp[start][Sum]=res;
+    }
 	public:
-	int grouping(string str,int ind,int sum,vector<vector<int>>& dp){
-	    if(ind == str.size()) return 1;
-	    int curr_sum = 0;
-	    int ans = 0;
-	    if(dp[ind][sum] != -1) return dp[ind][sum];
-	    for(int i=ind;i<str.size();i++){
-	        curr_sum += str[i] - '0';
-	        if(curr_sum >= sum) 
-	        ans += grouping(str,i+1,curr_sum,dp);
-	    }
-	    return dp[ind][sum] = ans;
-	}
-	int TotalCount(string str){
-	    // Code here
-	    int n = str.size();
-	    vector<vector<int>> dp(n,vector<int>(9*n,-1));
-	    return grouping(str,0,0,dp);
+	int TotalCount(string s){
+	    vector<vector<int>> dp(s.size(), vector<int>((s.size() * 9) + 1, -1));
+	    return solve(0, 0, s, dp);
 	}
 
 };
