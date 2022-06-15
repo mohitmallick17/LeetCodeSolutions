@@ -31,8 +31,8 @@ int main()
 
 int chocolates(int arr[], int n)
 {
-sort(arr, arr+n);
-return arr[0];
+
+return *min_element(arr, arr+n);
 
 
     
