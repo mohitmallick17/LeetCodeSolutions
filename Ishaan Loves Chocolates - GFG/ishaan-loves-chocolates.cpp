@@ -31,10 +31,8 @@ int main()
 
 int chocolates(int arr[], int n)
 {
-    // Complete the function
-    std::vector<int> v(arr, arr + n);
-sort(v.begin(), v.end());
-return v[0];
+sort(arr, arr+n);
+return arr[0];
 
 
     
