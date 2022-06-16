@@ -1,13 +1,13 @@
 class Solution {
-    bool isSubset(vector<int> &a, vector<int> &b){
-        for(int i=0;i<256;i++){
-            if(b[i] > a[i])return false;
+    bool isSubset(unordered_map<char, int> &a, unordered_map<char, int> &b){
+        for(auto &x:b){
+            if(a[x.first] < x.second)return false;
         }
         return true;
     }
 public:
     string minWindow(string s, string t) {
-        vector<int> hs(256, 0), ht(256, 0);
+        unordered_map<char, int> hs, ht;
         for(char &c:t)ht[c]++;
         
         string res;
