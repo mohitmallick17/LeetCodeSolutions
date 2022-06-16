@@ -10,18 +10,18 @@ public:
         unordered_map<char, int> hs, ht;
         for(char &c:t)ht[c]++;
         
-        string res;
+        int head=0, tail=-1;
         for(int start=0, end=0;end<s.size();end++){
             hs[s[end]]++;
             
             while(start<=end and isSubset(hs,ht)){
-                if(res.empty() or res.size() > end-start+1)
-                    res = s.substr(start, end-start+1);
+                if(tail==-1 or tail-head > end-start)
+                    head=start, tail=end;
                 if(start==end)break;
                 hs[s[start]]--;
                 start++;
             }
         }
-        return res;
+        return tail==-1 ? "" : s.substr(head, tail-head+1);
     }
 };
