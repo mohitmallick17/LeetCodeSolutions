@@ -31,18 +31,18 @@ class Solution {
         if(lc==0 or rc==0)
             return 1;
         
-        // if I am the top-most root and not covered
-        if(root==asli_root){
-            count++;
-            return 0;
-        }
+//         // if I am the top-most root and not covered
+//         if(root==asli_root){
+//             count++;
+//             return 0;
+//         }
         
         // otherwise ask for camera
         return -1;
     }
 public:
     int minCameraCover(TreeNode* root) {
-        solve(root, root);
+        if(solve(root, root)==-1)count++;
         return count;
     }
 };
