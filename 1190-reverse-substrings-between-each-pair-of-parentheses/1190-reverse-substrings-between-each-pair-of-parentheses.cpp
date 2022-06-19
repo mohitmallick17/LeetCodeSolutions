@@ -3,14 +3,8 @@ public:
     string reverseParentheses(string s) {
         vector<string> stk;
         string cur;
-        int n=s.size();
-        int lo=0, hi=n-1;
-//         while(lo<n and s[lo]!='(')lo++;
-//         while(hi>=lo and s[hi]!=')')hi--;
-//         if(lo > hi)return s;
         
-        for(int i=lo;i<=hi;i++){
-            char c=s[i];
+        for(const char &c:s){
             if(c=='('){
                 if(!cur.empty()){
                     stk.push_back(cur);
@@ -34,11 +28,6 @@ public:
         }
         if(cur.size() > 0)stk.push_back(cur);
         cur="";
-        // while(!stk.empty()){
-        //     cur += stk.top();
-        //     stk.pop();
-        // }
-        // return s.substr(0, lo) + cur + s.substr(hi+1);
         for(int i=0;i<stk.size();i++)cur+=stk[i];
         return cur;
     }
