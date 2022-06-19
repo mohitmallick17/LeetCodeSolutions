@@ -1,34 +1,27 @@
 class Solution {
 public:
     string reverseParentheses(string s) {
-        vector<string> stk;
-        string cur;
-        
-        for(const char &c:s){
-            if(c=='('){
-                if(!cur.empty()){
-                    stk.push_back(cur);
-                    cur.clear();
-                }
-                stk.push_back("(");
-            }else if(c==')'){
-                reverse(cur.begin(), cur.end());
-                while(stk.back() != "("){
-                    reverse(stk.back().begin(), stk.back().end());
-                    cur += stk.back();
-                    stk.pop_back();
-                }
+        int n=s.size();
+        vector<int> stk, index_mp(n);
+        for(int i=0;i<n;i++){
+            if(s[i]=='('){
+                stk.push_back(i);
+            }else if(s[i]==')'){
+                int start = stk.back();
                 stk.pop_back();
-                if(cur.empty())continue;
-                stk.push_back(cur);
-                cur.clear();
-            }else{
-                cur += c;
+                int end = i;
+                index_mp[start]=end;
+                index_mp[end]=start;
             }
         }
-        if(!cur.empty())stk.push_back(cur);
-        cur.clear();
-        for(int i=0;i<stk.size();i++)cur+=stk[i];
-        return cur;
+        string res;
+        
+        for(int i=0, d=1;i<n;i+=d){
+            if(s[i] =='(' or s[i]==')')
+                i=index_mp[i], d=-d;
+            else
+                res += s[i];
+        }
+        return res;
     }
 };
