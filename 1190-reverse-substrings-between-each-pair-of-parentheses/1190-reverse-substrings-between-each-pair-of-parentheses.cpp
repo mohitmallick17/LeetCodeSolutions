@@ -8,7 +8,7 @@ public:
             if(c=='('){
                 if(!cur.empty()){
                     stk.push_back(cur);
-                    cur="";
+                    cur.clear();
                 }
                 stk.push_back("(");
             }else if(c==')'){
@@ -21,13 +21,13 @@ public:
                 stk.pop_back();
                 if(cur.empty())continue;
                 stk.push_back(cur);
-                cur="";
+                cur.clear();
             }else{
                 cur += c;
             }
         }
-        if(cur.size() > 0)stk.push_back(cur);
-        cur="";
+        if(!cur.empty())stk.push_back(cur);
+        cur.clear();
         for(int i=0;i<stk.size();i++)cur+=stk[i];
         return cur;
     }
