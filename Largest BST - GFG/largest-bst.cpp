@@ -99,34 +99,35 @@ struct Node {
     }
 };*/
 
-class quad{
-   public:
-   int size;
-   int min;
-   int max;
-   bool isBST;
+struct nodeData{
+    bool isBST;
+    int size;
+    int mn;
+    int mx;
+    nodeData(bool flag, int sz, int minn, int maxx){
+        isBST=flag;
+        size=sz;
+        mn=minn;
+        mx=maxx;
+    }
 };
 
- 
-
-quad check(Node* root)
-{
-   if(root==NULL)
-       return {0,INT_MAX,INT_MIN,true};
-   quad x=check(root->left);
-   quad y=check(root->right);
-   if(root->data>x.max&&root->data<y.min&&x.isBST&&y.isBST)
-       return {x.size+y.size+1,min(root->data,x.min),max(root->data,y.max),true};
-   return {max(x.size,y.size),min(root->data,x.min),max(root->data,y.max),false};
-}
-
- 
-
 class Solution{
-   public:
-   int largestBst(Node *root)
-   {
-    return check(root).size;
+    nodeData solve(Node* root){
+        if(!root)return nodeData(true, 0, INT_MAX, INT_MIN);
+        
+        nodeData l = solve(root->left);
+        nodeData r = solve(root->right);
+        int cur = root->data;
+        // cout << cur << "-\n" << l.isBST << ' ' << l.size << ' ' << l.mn << ' ' << l.mx << "\n" << r.isBST << ' ' << r.size << ' ' << r.mn << ' ' << r.mx << "\n";
+        if(l.isBST and r.isBST and cur > l.mx and cur < r.mn){
+            return nodeData(true, l.size + r.size + 1, min(l.mn, cur), max(r.mx, cur));
+        }
+        return nodeData(false, max(l.size, r.size), 0, 0);
+    }
+public:
+   int largestBst(Node *root){
+    return solve(root).size;
    }
 };
 
