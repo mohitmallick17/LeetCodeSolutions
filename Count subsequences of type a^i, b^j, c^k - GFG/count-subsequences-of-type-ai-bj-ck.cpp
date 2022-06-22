@@ -14,17 +14,18 @@ class Solution{
     // s : given string
     // return the expected answer
     int fun(string &s) {
-    long long ans = 0 , mod = 1e9+7 , a = 0, ab = 0, abc = 0 ; 
-    for(auto &c: s){
-        if(c == 'a')
-            a = (2*a + 1)%mod ;
-        else if(c == 'b')
-            ab = (2*ab + a)%mod ;
-        else
-            abc = (2*abc + ab)%mod ;
+        long long mod = 1e9+7;
+        long long a = 0, b = 0, c = 0 ;
+        for(char &ch:s){
+            if(ch=='a')
+                a = (2*a + 1)%mod;
+            else if(ch=='b')
+                b = (2*b + a)%mod;
+            else
+                c=(2*c + b)%mod;
+        }
+        return c;
     }
-    return abc ;
-}
 };
 
 // { Driver Code Starts.
