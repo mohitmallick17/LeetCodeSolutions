@@ -5,26 +5,18 @@ using namespace std;
  // } Driver Code Ends
 class Solution{
 	public:
-	int TotalWays(int N)
-{
-    long mod = 1e9+7;
-    long dp[N+1][2] = {1};    // One combination when N=0
-    
-    for(int i=1; i<=N; i++){
-        // i denotes the current plot number
-        for(int j=0; j<2; j++){
-            // j denotes that if there is a building on the (i)th plot or not
-            // if j==1, there is a building
-            // if j==0, there is a space
-            if(j) dp[i][j] = dp[i-1][0];
-            else dp[i][j] = (dp[i-1][0] + dp[i-1][1]) % mod;
-        }
-    }
-    
-    long ans = (dp[N][0] + dp[N][1]); // we will sum both the values to get total combinations
-    ans = (ans*ans)%mod; // squaring
-    return ans;
-}
+	int TotalWays(int N){
+	    long long ob=1, os=1, mod=1e9 + 7;
+	    
+	    for(int i=2;i<=N;i++){
+	        long long nb = os;
+	        long long ns = (ob + os)%mod;
+	        ob=nb;
+	        os=ns;
+	    }
+	    long long ans = (ob+os)%mod;
+	    return (ans*ans)%mod;
+	}
 };
 
 // { Driver Code Starts.
