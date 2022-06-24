@@ -1,14 +1,12 @@
 class Solution {
-    void dfs(int node, int par, vector<bool>& vis, vector<int> adj[], vector<unordered_set<int>> &directed, int &res){
+    void dfs(int node, vector<bool>& vis, vector<int> adj[], vector<unordered_set<int>> &directed, int &res){
         vis[node]=true;
         
         for(auto nbr:adj[node]){
             if(!vis[nbr]){
-                if(!directed[nbr].count(node)){
-                    // cout << node << " -- " << nbr << '\n';
+                if(!directed[nbr].count(node))
                     res++;
-                }
-                dfs(nbr, par, vis, adj, directed, res);
+                dfs(nbr, vis, adj, directed, res);
             }
         }
     }
@@ -25,7 +23,7 @@ public:
         }
         int count = 0;
         vector<bool> vis(n, false);
-        dfs(0, -1, vis, adj, directed, count);
+        dfs(0, vis, adj, directed, count);
         return count;
     }
 };
