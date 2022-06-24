@@ -1,29 +1,26 @@
 class Solution {
-    void dfs(int node, vector<bool>& vis, vector<int> adj[], vector<unordered_set<int>> &directed, int &res){
+    int dfs(int node, vector<bool>& vis, vector<int> adj[]){
         vis[node]=true;
-        
+        int count = 0;
         for(auto nbr:adj[node]){
-            if(!vis[nbr]){
-                if(!directed[nbr].count(node))
-                    res++;
-                dfs(nbr, vis, adj, directed, res);
+            if(!vis[abs(nbr)]){
+                count += dfs(abs(nbr), vis, adj) + (nbr > 0); // we need to find -ve edge. dest to src
+                // but inverse is also possible, if d -> s is -ve, then s -> d is +ve. so insetead of finding 
+                // if nbr -> node is -ve, just check if node -> nbr is +ve
             }
         }
+        return count;
     }
 public:
     int minReorder(int n, vector<vector<int>>& connections) {
         vector<int> adj[n];
-        vector<unordered_set<int>> directed(n, unordered_set<int>());
         for(auto &c:connections){
             int s = c[0];
             int d = c[1];
             adj[s].push_back(d);
-            adj[d].push_back(s);
-            directed[s].insert(d);
+            adj[d].push_back(-s); // mark as negative edge
         }
-        int count = 0;
         vector<bool> vis(n, false);
-        dfs(0, vis, adj, directed, count);
-        return count;
+        return dfs(0, vis, adj);
     }
 };
