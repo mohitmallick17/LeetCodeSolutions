@@ -7,22 +7,21 @@ class Solution
 {
 public:
     int countDistinctSubarray(int arr[], int n){
-        int i=0,j=0;
-        int ans=0;
-        unordered_map<int,int>um;
-        unordered_set<int>us;
-        for(int i=0;i<n;i++)
-            us.insert(arr[i]);
-        int k=us.size();
-        for(int i=0;i<n;i++){
-            um[arr[i]]++;
-            while(um.size()>=k&&j<=i){
-                ans+=(n-i);
-                 um[arr[j]]--;
-                if(um[arr[j]]==0)
-                  um.erase(arr[j]);
-                j++;}
-             }
+        unordered_set<int> st;
+        for(int i=0;i<n;i++)st.insert(arr[i]);
+        
+        int distinct = st.size();
+        unordered_map<int, int> mp;
+        int ans = 0;
+        for(int start=0, end=0;end<n;end++){
+            mp[arr[end]]++;
+            while(start <= end and mp.size() >= distinct){
+                ans += n-end;
+                mp[arr[start]]--;
+                if(mp[arr[start]]==0)mp.erase(arr[start]);
+                start++;
+            }
+        }
         return ans;
     }
 };
