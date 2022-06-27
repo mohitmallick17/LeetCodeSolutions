@@ -9,19 +9,7 @@ using namespace std;
 
 class Solution {
   public:
-    // vector<int> changeBits(int N) {
-    //     // int n2=n;
-    //     // bool found=false;
-    //     // for(int i=31;i>=0;i--){
-    //     //     int bit=((N>>i)&1);
-    //     //     if(bit)found=true;
-    //     //     else if(found)
-    //     //         n2 |= (1<<i);
-    //     // }
-    //     // return {n2-N, n2};
-        
-    // }
-    int bits(int N){
+int bits(int N){
         int cnt=0;
         while(N)
             N>>=1,cnt++;
