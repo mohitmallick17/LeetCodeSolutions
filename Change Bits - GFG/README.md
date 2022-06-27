@@ -1,5 +1,5 @@
 # Change Bits
-##  Easy 
+## Easy 
 <div class="problem-statement">
                 <p></p><p><span style="font-size:18px">Given a number <strong>N,</strong>&nbsp;complete the following&nbsp;tasks,<br>
 Task 1. Generate a new number from&nbsp;N&nbsp;by changing&nbsp;the&nbsp;zeroes in the binary&nbsp;representation of N to 1.<br>
