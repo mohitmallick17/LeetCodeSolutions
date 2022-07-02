@@ -10,20 +10,16 @@ using namespace std;
 class Solution {
   public:
     int canReach(int A[], int N) {
-        // code here
-        int jump = A[0];
-        for(int i = 0;i<N;i++)
-        {
-            if(jump>=i)
-            {
-                jump = max(jump,i+A[i]);
-            }
-                
+        int curD=0, maxD=0;
+        
+        for(int i=0;i<N and curD < N-1;i++){
+            maxD = max(maxD, i+A[i]);
+            if(i==curD)
+                curD=maxD;
+            if(maxD==i and maxD < N-1)return false;
+            // cout << curD << ' ' << maxD << '\n';
         }
-        if(jump>=N-1)
-        return 1;
-        else
-        return 0;
+        return true;
     }
 };
 
