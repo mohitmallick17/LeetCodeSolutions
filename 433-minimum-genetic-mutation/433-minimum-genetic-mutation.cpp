@@ -2,19 +2,19 @@ class Solution {
     int ans = INT_MAX;
     
     void solve(string start, string &end, unordered_set<string> st, int steps){
-        if(steps > ans)return;
+        if(steps > ans)return; // pruning
         if(start==end){
             ans = min(ans, steps);
             return;
         }
         
+        string ss=start;
         for(int i=0;i<8;i++){
             char cur = start[i];
-            string ss=start;
             for(const char &nw:"ACGT"){
                 if(cur==nw)continue;
                 ss[i]=nw;
-                if(st.find(ss) != st.end()){
+                if(st.count(ss)){
                     st.erase(ss);
                     solve(ss, end, st, steps+1);
                     st.insert(ss);
