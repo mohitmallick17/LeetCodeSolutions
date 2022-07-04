@@ -2,6 +2,7 @@ class Solution {
     int ans = INT_MAX;
     
     void solve(string start, string &end, unordered_set<string> st, int steps){
+        if(steps > ans)return;
         if(start==end){
             ans = min(ans, steps);
             return;
