@@ -10,8 +10,7 @@ public:
             // smallest no: find len
             if(s.find(n-1) == s.end()){
                 int len=0;
-                while(s.find(n) != s.end())n++, len++;
-                
+                while(s.find(n) != s.end())n++, len++;                
                 res = max(res, len);
             }
         }
