@@ -11,10 +11,14 @@ public:
             while(lo < hi){
                 int Sum = nums[lo] + nums[hi] + nums[i];
                 if(target==Sum)return target; // Sum = target. Exact Match
-                else if(target>Sum)
+                else if(target>Sum){
+                    while(lo<hi and nums[lo]==nums[lo+1])lo++;
                     lo++;
-                else
+                }
+                else{
+                    while(lo<hi and nums[hi]==nums[hi-1])hi--;
                     hi--;
+                }
                 if(abs(target-ans) > abs(target-Sum))
                     ans = Sum;
             }
