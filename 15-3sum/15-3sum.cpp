@@ -6,6 +6,8 @@ public:
         int n=nums.size();
         
         for(int i=0;i<n;i++){
+            // pruning
+            if(nums[i] > 0)break;
             if(i>0 and nums[i-1]==nums[i])continue;
             int lo=i+1, hi=n-1;
             int search = 0 - nums[i];
