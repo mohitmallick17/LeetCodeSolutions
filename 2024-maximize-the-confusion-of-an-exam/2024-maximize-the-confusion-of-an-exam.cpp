@@ -3,11 +3,8 @@ class Solution {
         int res = 0;
         int avlK=k;
         for(int s=0, e=0, cur=0;e<str.size();e++){
-            if(str[e] == key)cur++;
-            else{
-                cur++;
-                avlK--;
-            }
+            cur++;
+            if(str[e] != key)avlK--;
             while(avlK<0 and s<e){
                 cur--;
                 if(str[s] != key)avlK++;
