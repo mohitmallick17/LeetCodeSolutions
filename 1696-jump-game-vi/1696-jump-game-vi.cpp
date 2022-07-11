@@ -1,16 +1,19 @@
 class Solution {
 public:
     int maxResult(vector<int>& nums, int k) {
-	vector<int> dp(size(nums));
-	dp[0] = nums[0];
-	deque<int> q{ 0 };
-	for(int i = 1; i < size(nums); i++) {
-		if(q.front() < i - k) q.pop_front();         // can't reach current index from index stored in q     
-		dp[i] = nums[i] + dp[q.front()];             // update max score for current index
-		while(!q.empty() && dp[q.back()] <= dp[i])   // pop indices which won't be ever chosen in the future
-		    q.pop_back();
-		q.push_back(i);                              // insert current index
-	}
-	return dp.back();
+        int n=nums.size();
+        vector<int> dp(n);
+        deque<int> dq;
+        dp[n-1]=nums[n-1];
+        dq.push_back(n-1);
+        
+        for(int i=n-2;i>=0;i--){
+            if(dq.front() - i > k)dq.pop_front();
+            dp[i] = nums[i] + dp[dq.front()];
+            
+            while(!dq.empty() and dp[dq.back()] < dp[i])dq.pop_back();
+            dq.push_back(i);
+        }
+        return dp[0];
     }
 };
