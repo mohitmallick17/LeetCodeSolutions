@@ -5,7 +5,7 @@ class Solution {
         
         while(low <= high){
             int mid = low + (high-low)/2;
-            if(v[mid] <= key){
+            if(v[mid] >= key){
                 ans = mid;
                 high=mid-1;
             }else
