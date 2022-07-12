@@ -4,24 +4,23 @@ using namespace std;
 
  // } Driver Code Ends
 class Solution {
+    int dp[501][501];
+    int solve(int i, int j, string &s, string &t){
+        if(i==s.size())return 501;
+        if(j==t.size())return 1;
+        if(dp[i][j] != -1)return dp[i][j];
+        int k;
+        for(k=j;k<t.size();k++){
+            if(s[i]==t[k])break;
+        }
+        if(k==t.size())return dp[i][j]=1;
+        return dp[i][j]=min(solve(i+1, j, s, t), 1+solve(i+1,k+1,s,t));
+    }
   public:
     int shortestUnSub(string S, string T) {
-        // code here
-        
-            int n = S.size(), m = T.size();
-            vector <vector<int>> dp(n+1, vector<int>(m+1, 1000));
-            for(int i=1; i<=n; i++){
-                for(int j=1; j<=m; j++){
-                    int k = j;
-                    while(k && S[i-1] != T[k-1])
-                        k -= 1;
-                    if(k == 0)
-                        dp[i][j] = 1;
-                    else
-                        dp[i][j] = min(dp[i-1][j], 1+dp[i-1][k-1]);
-                }
-            }
-            return dp[n][m] == 1000 ? -1 : dp[n][m];
+        memset(dp, -1, sizeof dp);
+        int ans = solve(0,0,S,T);
+        return ans>500 ? -1:ans; 
     }
 };
 
