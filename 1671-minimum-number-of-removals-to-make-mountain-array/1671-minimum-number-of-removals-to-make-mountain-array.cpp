@@ -1,25 +1,41 @@
 class Solution {
+    int binarySearchLB(vector<int>& v, int key){
+        int low=0, high=v.size()-1;
+        int ans = -1;
+        
+        while(low <= high){
+            int mid = low + (high-low)/2;
+            if(v[mid] <= key){
+                ans = mid;
+                high=mid-1;
+            }else
+                low=mid+1;
+        }
+        return ans;        
+    }
+    vector<int> LIS(vector<int>& a){
+        int n=a.size();
+        vector<int> v(n, INT_MAX);
+        vector<int> len(n);
+        for(int i=0;i<n;i++){
+            int idx = lower_bound(v.begin(), v.end(), a[i]) - v.begin();
+            v[idx] = a[i];
+            len[i] = idx+1;
+        }
+        return len;
+    }
 public:
     int minimumMountainRemovals(vector<int>& nums) {
-        int n=nums.size();
-        vector<int> left(n, 1), right(n, 1);
+        vector<int> left = LIS(nums);
+        reverse(nums.begin(), nums.end());
+        vector<int> right = LIS(nums);
+        reverse(right.begin(), right.end());
         
-        for(int i=1;i<n;i++){
-            for(int j=0;j<i;j++){
-                if(nums[j] < nums[i])
-                    left[i] = max(left[i], left[j]+1);
-            }
-        }
-        for(int i=n-2;i>=0;i--){
-            for(int j=n-1;j>i;j--){
-                if(nums[i] > nums[j])
-                    right[i] = max(right[i], right[j]+1);
-            }
-        }
-        int res = 0;
+        int n=nums.size();
+        int ans = 0;
         for(int i=0;i<n;i++){
-            if(left[i]>1 and right[i]>1)res=max(res, left[i]+right[i]-1);
+            if(left[i] > 1 and right[i] > 1)ans=max(ans, left[i]+right[i]-1);
         }
-        return n-res;
+        return n-ans;
     }
 };
