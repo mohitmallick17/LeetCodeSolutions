@@ -10,24 +10,21 @@
  * };
  */
 class Solution {
-    TreeNode* solve(int ps, int pe, int is, int ie, vector<int>& preorder, 
-                    vector<int>& inorder, unordered_map<int, int> &imap){
+    TreeNode* solve(int ps, int pe, int is, int ie, vector<int>& preorder, vector<int>& inorder, 
+                    unordered_map<int, int>& inmp){
         if(ps > pe or is > ie)return NULL;
-        
         TreeNode* root = new TreeNode(preorder[ps]);
-        int in_idx = imap[preorder[ps]];
-        int cnt_elements_to_left = in_idx - is;
-        root->left = solve(ps+1, ps+cnt_elements_to_left, is, in_idx-1, preorder, inorder, imap);
-        root->right = solve(ps+cnt_elements_to_left+1, pe, in_idx+1, ie, preorder, inorder, imap);
-        
+        int index_at_inorder = inmp[root->val];
+        int nums_in_left = index_at_inorder - is;
+        root->left = solve(ps+1, ps+nums_in_left, is, index_at_inorder-1, preorder, inorder, inmp);
+        root->right = solve(ps+nums_in_left+1, pe, index_at_inorder+1, ie, preorder, inorder, inmp);
         return root;
     }
 public:
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        int n=preorder.size();
-        unordered_map<int, int> imap;
-        for(int i=0;i<inorder.size();i++)
-            imap[inorder[i]] = i;
-        return solve(0, n-1, 0, n-1, preorder, inorder, imap);
+        int n=inorder.size();
+        unordered_map<int, int> mp;
+        for(int i=0;i<n;i++)mp[inorder[i]]=i;
+        return solve(0,n-1,0,n-1,preorder,inorder,mp);
     }
 };
