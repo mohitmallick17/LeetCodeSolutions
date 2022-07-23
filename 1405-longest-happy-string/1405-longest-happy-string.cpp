@@ -1,31 +1,13 @@
 class Solution {
 public:
-    string longestDiverseString(int a, int b, int c) {
-        priority_queue<pair<int, char>> pq;
-        if(a)
-            pq.push({a, 'a'});
-        if(b)
-            pq.push({b, 'b'});
-        if(c)
-            pq.push({c, 'c'});
-        string res;
+    string longestDiverseString(int a, int b, int c, char aa='a', char bb='b', char cc='c') {
+        if(a < b)return longestDiverseString(b,a,c,bb,aa,cc);
+        if(b < c)return longestDiverseString(a,c,b,aa,cc,bb);
+        // here a >= b >= c
+        if(b==0)return string(min(2, a), aa);
+        int min_a = min(2, a);
+        int min_b = (a-min_a) >= b ? 1:0; // use b if it is still 2nd largest
         
-        while(!pq.empty()){
-            auto mx = pq.top();
-            pq.pop();
-            int sz=res.size();
-            if(sz < 2 or res[sz-1]!=mx.second or res[sz-2]!=mx.second)
-                res += mx.second, mx.first--;
-            else{
-                if(pq.empty())return res;
-                auto second_mx = pq.top();
-                pq.pop();
-                res += second_mx.second;
-                second_mx.first--;
-                if(second_mx.first > 0)pq.push(second_mx);
-            }
-            if(mx.first > 0)pq.push(mx);
-        }
-        return res;
+        return string(min_a, aa) + string(min_b, bb) + longestDiverseString(a-min_a, b-min_b, c, aa,bb,cc);
     }
 };
