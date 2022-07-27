@@ -10,21 +10,20 @@
  * };
  */
 class Solution {
-    TreeNode* prev=new TreeNode(-1);
-    void solve(TreeNode* root){
+    void solve(TreeNode* root, TreeNode* &treeList){
         if(!root)return;
-        auto tmp_l = root->left;
-        auto tmp_r = root->right;
-        prev->right=root;
-        prev=prev->right;
-        prev->left=NULL;
-        solve(tmp_l);
-        solve(tmp_r);
+        auto l = root->left, r=root->right;
+        treeList->right=root;
+        treeList = treeList->right;
+        treeList->left = treeList->right = NULL;
+        solve(l,treeList);
+        solve(r,treeList);
     }
 public:
     void flatten(TreeNode* root) {
-        TreeNode* prevHd=prev;
-        solve(root);
-        root=prevHd->right;
+        TreeNode* res = new TreeNode(-1);
+        TreeNode* head = res;
+        solve(root, res);
+        root=head->right;
     }
 };
