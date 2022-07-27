@@ -1,18 +1,21 @@
 class Solution {
 public:
     int maxChunksToSorted(vector<int>& arr) {
-        vector<int> tmp(arr);
-        sort(tmp.begin(), tmp.end());
-        unordered_map<int, queue<int>> mp; // item(value): queue of index in increasing order (for O(1) pop)
-        for(int i=0;i<arr.size();i++){
-            mp[tmp[i]].push(i);
+        int n=arr.size();
+        vector<int> lmax(n), rmin(n+1);
+        lmax[0] = arr[0];
+        for(int i=1;i<n;i++){
+            lmax[i] = max(lmax[i-1], arr[i]);
         }
-        int Max=0, count=0;
+        rmin[n]=INT_MAX;
+        for(int i=n-1;i>=0;i--){
+            rmin[i] = min(rmin[i+1], arr[i]);
+        }
+        int count = 0;
         
-        for(int i=0;i<arr.size();i++){
-            Max=max(Max, mp[arr[i]].front());
-            mp[arr[i]].pop();
-            if(i==Max)count++;
+        for(int i=0;i<n;i++){
+            // if max of left till i, is smaller even than the min of (right+1 to n), this is a chunk
+            if(lmax[i] <= rmin[i+1])count++;
         }
         return count;
     }
