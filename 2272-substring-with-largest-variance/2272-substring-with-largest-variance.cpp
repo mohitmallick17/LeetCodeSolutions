@@ -14,16 +14,15 @@ class Solution {
     }
 public:
     int largestVariance(string s) {
-        // cout << kadanesAlgo(s, 'i', 'a') << '\n';
         int res=0;
         vector<bool> freq(26, 0);
         for(char &c:s)freq[c-'a']=1;
         unordered_set<char> uset(s.begin(), s.end());
         
         for(int i=0;i<2;i++){
-            for(char ch1:uset){        
+            for(char ch1:uset){
                 for(char ch2:uset){
-                    if(ch1==ch2 or !freq[ch1-'a'] or !freq[ch2-'a'])continue;
+                    if(ch1==ch2)continue;
                     res = max(res, kadanesAlgo(s, ch1, ch2));
                 }
             }
