@@ -17,14 +17,14 @@ public:
         int res=0;
         unordered_set<char> uset(s.begin(), s.end());
         
-        for(int i=0;i<2;i++){
-            for(char ch1:uset){
-                for(char ch2:uset){
-                    if(ch1==ch2)continue;
-                    res = max(res, kadanesAlgo(s, ch1, ch2));
-                }
+        for(char ch1:uset){
+            for(char ch2:uset){
+                if(ch1==ch2)continue;
+                res = max(res, kadanesAlgo(s, ch1, ch2));
+                string rev = s;
+                reverse(rev.begin(), rev.end());
+                res = max(res, kadanesAlgo(rev, ch1, ch2));
             }
-            reverse(s.begin(), s.end());
         }
         return res;
     }
