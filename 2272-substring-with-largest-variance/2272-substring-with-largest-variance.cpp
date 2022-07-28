@@ -15,8 +15,6 @@ class Solution {
 public:
     int largestVariance(string s) {
         int res=0;
-        vector<bool> freq(26, 0);
-        for(char &c:s)freq[c-'a']=1;
         unordered_set<char> uset(s.begin(), s.end());
         
         for(int i=0;i<2;i++){
