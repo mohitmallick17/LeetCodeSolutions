@@ -3,21 +3,21 @@ public:
     int minInsertions(string s) {
         int cost = 0;
         int n=s.size();
-        stack<int> stk;
+        int open=0;
         for(int i=0;i<n;i++){
             if(s[i] == '(')
-                stk.push(i);
+                open++;
             else{
-                if(stk.empty()){
+                if(open==0){
                     cost++; // no prev (                    
                 }else{
-                    stk.pop();
+                    open--;
                 }
                 if(i==n-1 or s[i+1] != ')')cost++;
                 else i++;
             }
         }
-        cost += 2*(stk.size()); // 2 closings for each open (
+        cost += 2*(open); // 2 closings for each open (
         return cost;
     }
 };
