@@ -5,19 +5,18 @@ public:
         sort(tokens.begin(), tokens.end());
         int start=0, end=tokens.size()-1;
         int ans=0;
-        bool valid=true;
-        while(valid and start <= end){
+        while(start <= end){
             if(power >= tokens[start]){
                 score++;
                 power -= tokens[start];
                 start++;
+                ans = max(ans, score);
             }else if(score >= 1){
                 power += tokens[end];
                 end--;
                 score--;
             }else
-                valid=false;
-            ans = max(ans, score);
+                break;
         }
         return ans;
     }
