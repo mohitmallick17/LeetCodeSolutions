@@ -3,7 +3,7 @@ class Solution {
 public:
     int matrixScore(vector<vector<int>>& grid) {
         int m=grid.size(), n=grid[0].size();
-        long long res = (1 << (n-1))*m;
+        int res = (1 << (n-1))*m;
         
         for(int j=1;j<n;j++){
             int ones=0, zeros=0;
