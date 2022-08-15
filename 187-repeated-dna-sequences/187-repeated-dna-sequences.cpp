@@ -1,15 +1,13 @@
 class Solution {
 public:
     vector<string> findRepeatedDnaSequences(string s) {
-        unordered_map<string, int> mp;
+        unordered_set<string> dna, res;
         
         for(int i=0;i+10<=s.size();i++){
-            mp[s.substr(i, 10)]++;
+            string key = s.substr(i, 10);
+            if(dna.count(key))res.insert(key);
+            else dna.insert(key);
         }
-        vector<string> res;
-        for(auto &[k,v]:mp){
-            if(v > 1)res.push_back(k);
-        }
-        return res;
+        return vector<string>(res.begin(), res.end());
     }
 };
