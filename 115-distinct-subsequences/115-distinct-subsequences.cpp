@@ -2,23 +2,20 @@ class Solution {
 public:
     int numDistinct(string s, string t) {
         int m=s.size(), n=t.size();
-        vector<double> prev(n+1, 0), cur(n+1, 0);
+        vector<double> cur(n+1, 0);
         
-        prev[0]=cur[0]=1;
-        for(int j=1;j<=n;j++)prev[j]=0;
+        cur[0]=1;
+        for(int j=1;j<=n;j++)cur[j]=0;
         
         for(int i=1;i<=m;i++){
-            for(int j=1;j<=n;j++){
+            for(int j=n;j>=1;j--){
         
                 if(s[i-1] == t[j-1])
-                    cur[j]=prev[j-1] + prev[j];
+                    cur[j]=cur[j-1] + cur[j];
                 else
-                    cur[j]=prev[j];
-                
+                    cur[j]=cur[j];
             }
-            prev=cur;
         }
-        
-        return prev[n];
+        return cur[n];
     }
 };
