@@ -10,22 +10,23 @@ public:
         string f, r;
         
         for(int i=9;i>=0;i--){
-            cout << i << ' ' << mp[i] << '\n';
             int x = mp[i]/2;
             f += string(x, '0'+i);
             mp[i] -= 2*x;
         }
         if(f.front()=='0')f.clear();
+        bool isOdd=false;
+        char mid;
         for(int i=9;i>=0;i--){
             if(mp[i] > 0){
-                r = f;
-                reverse(r.begin(), r.end());
-                return f  + string(1, i+'0') + r;
+                isOdd=true;
+                mid='0'+i;
+                break;
             }
         }
         r=f;
         reverse(r.begin(), r.end());
-        string ans = f+r;
+        string ans = isOdd ? f + mid + r : f+r;
         if(ans.empty())return "0";
         return ans;
     }
