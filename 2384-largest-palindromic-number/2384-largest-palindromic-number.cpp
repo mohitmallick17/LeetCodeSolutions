@@ -5,14 +5,16 @@ public:
         
         for(char &c:num)cnt[c-'0']++;
         
-        string f, r;
+        string f, r; // f holds forward part & r holds the reverse part of palindrone
         
         for(int i=9;i>=0;i--){
             int x = cnt[i]/2;
             f += string(x, '0'+i);
             cnt[i] -= 2*x;
         }
-        if(f.front()=='0')f.clear();
+        
+        if(f.front()=='0')f.clear(); // if first char is 0 then it contains all leading 0's
+        
         bool isOdd=false;
         char mid;
         for(int i=9;i>=0;i--){
