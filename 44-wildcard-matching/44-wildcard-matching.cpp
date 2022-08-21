@@ -6,8 +6,6 @@ public:
 
         prev[0]=true;
         
-        // for(int i=1;i<=m;i++)dp[i][0]=false;
-        
         for(int j=1;j<=n;j++){
             bool ans = true;
             for(int x=j;x>0;x--){
