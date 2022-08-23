@@ -26,7 +26,7 @@ public:
             if(x.first > day){
                 int cnt = min(x.first-day, x.second);
                 ans += cnt;
-                day = min(day+cnt, x.first);
+                day = day+cnt;
             }
         }
         return ans;
