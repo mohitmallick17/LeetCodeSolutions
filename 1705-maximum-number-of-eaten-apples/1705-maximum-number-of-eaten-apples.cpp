@@ -10,27 +10,30 @@ public:
             
             while(!pq.empty() and pq.top().first <= i)pq.pop(); // remove rotten apple
             
+            // increment only by 1, to accomodate future apples (which might have lesser expiry)
+            // therefore we eat apple only on i'th day until we have seen all the apples & their expiry
             if(pq.size()){
                 ans++;
                 auto x = pq.top();
                 pq.pop();
                 x.second--;
-                if(x.second > 0)
+                if(x.second > 0) // if still have apples, push it
                     pq.push(x);
             }
         }
+        // after n days, we won't add more apples, but finish existing ones.
+        // so be greedy and finish the ones closest to expiry
         int day = days.size();
         while(!pq.empty()){
             auto x = pq.top();
             pq.pop();
-            if(x.first > day){
-                int cnt = min(x.first-day, x.second);
+            if(x.first > day){ // apples should not be expired
+                int cnt = min(x.first-day, x.second); // count total apples we can take 
+                //  cnt = min(apples we have, days between expiry date-today's date)
                 ans += cnt;
-                day = day+cnt;
+                day += cnt;
             }
         }
         return ans;
     }
 };
-// [2,1,1,4,5]
-// [10,10,6,4,2]
