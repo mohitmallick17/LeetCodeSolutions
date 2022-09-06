@@ -10,12 +10,8 @@
  * };
  */
 class Solution {
-    bool isLeaf(TreeNode* root){
-        return root and root->left==NULL and root->right==NULL;
-    }
     bool solve(TreeNode* root){
         if(!root)return false;
-        if(isLeaf(root))return root->val==1;
         
         bool l = solve(root->left);
         bool r = solve(root->right);
@@ -29,10 +25,6 @@ class Solution {
     }
 public:
     TreeNode* pruneTree(TreeNode* root) {
-        if(isLeaf(root)){
-            if(root->val==0)return NULL;
-            return root;
-        }
         if(solve(root)==false)return NULL;
         return root;
     }
