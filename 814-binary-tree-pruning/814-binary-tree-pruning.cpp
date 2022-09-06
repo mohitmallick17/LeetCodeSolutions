@@ -10,22 +10,18 @@
  * };
  */
 class Solution {
-    bool solve(TreeNode* root){
-        if(!root)return false;
-        
-        bool l = solve(root->left);
-        bool r = solve(root->right);
-        
-        if(l==false)root->left=NULL;
-        if(r==false)root->right=NULL;
-        
-        bool ans = (l || r || root->val==1);
-        
-        return ans;
-    }
 public:
     TreeNode* pruneTree(TreeNode* root) {
-        if(solve(root)==false)return NULL;
-        return root;
+        if(!root)return NULL;
+        
+        TreeNode* l = pruneTree(root->left);
+        TreeNode* r = pruneTree(root->right);
+        
+        if(l==NULL)root->left=NULL;
+        if(r==NULL)root->right=NULL;
+        
+        if(l || r || root->val==1)return root;
+        
+        return NULL;
     }
 };
