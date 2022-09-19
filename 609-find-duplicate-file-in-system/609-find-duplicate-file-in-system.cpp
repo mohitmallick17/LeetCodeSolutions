@@ -10,7 +10,8 @@ public:
             string cur;
             while(getline(ss, cur, ' ')){
                 string filePath = root + '/' + cur.substr(0, cur.find('('));
-                string data = cur.substr(cur.find('(')+1, (cur.find(')')-cur.find('(')));
+                string data = cur.substr(cur.find('(')+1, (cur.find(')')-cur.find('(')-1));
+                // cout << data << '\n';
                 content[data].push_back(filePath);
             }
         }
