@@ -48,21 +48,18 @@ public:
         DSU dsu(n);
         
         int ans = n;
-        vector<int> vis(n, false);
         
         for(auto &[val,indexes]:mp){
             unordered_map<int,int> cnt;
             for(auto &idx:indexes){
                 for(auto &nbr:adj[idx]){
-                    // if(vis[nbr])
-                        dsu.union_(idx, nbr);
+                    dsu.union_(idx, nbr);
                 }
-                vis[idx]=true;
             }
             for(auto &idx:indexes)
                 cnt[dsu.findPar(idx)]++;
             for(auto &[k,v]:cnt){
-                if(v >= 2)ans += ((v)*(v-1))/2;
+                ans += ((v)*(v-1))/2;
             }
         }
         return ans;
