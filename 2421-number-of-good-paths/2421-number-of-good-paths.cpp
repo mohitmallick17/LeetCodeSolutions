@@ -35,8 +35,10 @@ public:
         vector<int> adj[n];
         for(auto &x:edges){
             int s=x[0], d=x[1];
-            adj[s].push_back(d);
-            adj[d].push_back(s);
+            if(vals[s] >= vals[d])
+                adj[s].push_back(d);
+            else
+                adj[d].push_back(s);
         }
         // key: value, val: index of nodes
         map<int, vector<int>> mp;
@@ -52,7 +54,8 @@ public:
             unordered_map<int,int> cnt;
             for(auto &idx:indexes){
                 for(auto &nbr:adj[idx]){
-                    if(vis[nbr])dsu.union_(idx, nbr);
+                    // if(vis[nbr])
+                        dsu.union_(idx, nbr);
                 }
                 vis[idx]=true;
             }
