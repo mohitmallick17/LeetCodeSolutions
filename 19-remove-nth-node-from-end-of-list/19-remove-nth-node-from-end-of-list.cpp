@@ -9,26 +9,20 @@
  * };
  */
 class Solution {
-    int getLen(ListNode* head){
-        int res=0;
-        while(head){
-            res++;
-            head=head->next;
-        }
-        return res;
-    }
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        if(!head)return NULL;
-        n = getLen(head)-n;
-        if(n==0)return head->next;
-        ListNode* prev=NULL, *cur=head;
+        ListNode *nh=new ListNode(0);
+        nh->next=head;
+        ListNode *slow=nh, *fast=nh;
         
-        while(n--){
-            prev=cur;
-            cur=cur->next;
+        for(int i=0;i<=n;i++)
+            fast=fast->next;
+        while(fast){
+            slow=slow->next;
+            fast=fast->next;
         }
-        prev->next=cur->next;
-        return head;
+        // cout << (slow->val);
+        slow->next = (slow->next) ? slow->next->next : NULL;
+        return nh->next;
     }
 };
