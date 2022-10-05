@@ -10,29 +10,35 @@
  * };
  */
 class Solution {
-    void solve(TreeNode* root, int curD, int val, int depth){
-        if(!root)return;
-        if(curD == depth){
-            TreeNode* lc = new TreeNode(val);
-            lc->left = root->left;
-            TreeNode* rc = new TreeNode(val);
-            rc->right = root->right;
-            
-            root->left = lc;
-            root->right = rc;
-            return;
-        }
-        solve(root->left, curD+1, val, depth);
-        solve(root->right, curD+1, val, depth);
-    }
 public:
-    TreeNode* addOneRow(TreeNode* root, int val, int depth) {
+    TreeNode* addOneRow(TreeNode* root, int val, int depth, int cur=1) {
+        if(!root)return NULL;
+        
         if(depth==1){
-            TreeNode *nr = new TreeNode(val);
-            nr->left=root;
-            return nr;
+            auto node = new TreeNode(val);
+            node->left = root;
+            
+            return node;
         }
-        solve(root, 1, val, depth-1);
+        
+        if(cur == depth-1){
+            auto nl = new TreeNode(val);
+            nl->left = root->left;
+            root->left = nl;
+            
+            
+            auto nr = new TreeNode(val);
+            nr->right = root->right;
+            root->right = nr;
+            
+            return root;
+        }
+        
+        auto l = addOneRow(root->left, val, depth, cur+1);
+        auto r = addOneRow(root->right, val, depth, cur+1);
+        root->left=l;
+        root->right=r;
+        
         return root;
     }
 };
