@@ -1,25 +1,12 @@
 class MyCalendarThree {
-    map<int, int> mp;
+    map<int, int> timeline;
 public:
-    MyCalendarThree() {
-        
-    }
-    
-    int book(int start, int end) {
-        mp[start]++;
-        mp[end]--;
-        int sum=0;
-        int ans = 0;
-        for(auto &x:mp){
-            sum += x.second;
-            ans = max(ans, sum);
-        }
-        return ans;
+    int book(int s, int e) {
+        timeline[s]++; // 1 new event will be starting at [s]
+        timeline[e]--; // 1 new event will be ending at [e];
+        int ongoing = 0, k = 0;
+        for (pair<int, int> t : timeline)
+            k = max(k, ongoing += t.second);
+        return k;
     }
 };
-
-/**
- * Your MyCalendarThree object will be instantiated and called as such:
- * MyCalendarThree* obj = new MyCalendarThree();
- * int param_1 = obj->book(start,end);
- */
