@@ -1,28 +1,25 @@
 class Solution {
-    int solve(int idx, vector<int>& v, int d, vector<vector<int>> &dp){
-        int n=v.size();
-        if(idx==n and d==0)return 0;
-        if(idx==n or d==0)return INT_MAX;
+    int solve(int index, vector<int>& v, int d, vector<vector<int>> &dp){
+        if(index==v.size() && d==0){
+            return 0;
+        }else if(index==v.size() or d==0)
+            return -1;
         
-        if(dp[idx][d] != -1)return dp[idx][d];
+        if(dp[index][d] != -1)return dp[index][d];
         
-        int mx = 0;
-        int Sum = INT_MAX;
-        
-        for(int i=idx;i<n;i++){
-            mx = max(mx, v[i]);
-            int val = solve(i+1, v, d-1, dp);
-            if(val != INT_MAX)
-                Sum = min(Sum, mx + val);
+        int jd = v[index];
+        int ans = INT_MAX;
+        for(int i=index;i<v.size();i++){
+            jd = max(jd, v[i]);
+            int cur = solve(i+1, v, d-1, dp);
+            if(cur != -1)
+                ans = min(ans, jd + cur);
         }
-        return dp[idx][d]=Sum;
+        return dp[index][d] = (ans==INT_MAX ? -1 : ans);
     }
 public:
     int minDifficulty(vector<int>& jobDifficulty, int d) {
-        int n=jobDifficulty.size();
-        if(n < d)return -1;
-        vector<vector<int>> dp(n, vector<int>(d+1, -1));
-        
+        vector<vector<int>> dp(jobDifficulty.size(), vector<int>(11, -1));
         return solve(0,jobDifficulty,d,dp);
     }
 };
