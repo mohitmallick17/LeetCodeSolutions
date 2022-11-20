@@ -21,6 +21,7 @@ public:
                 stk.push(sign);
                 sign=1;
                 res=0;
+                cur=0;
             }else if(c == ')'){
                 res += sign*cur;
                 int prev_sign = stk.top();
