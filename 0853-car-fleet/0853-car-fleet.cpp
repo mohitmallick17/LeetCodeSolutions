@@ -1,23 +1,27 @@
 class Solution {
 public:
     int carFleet(int target, vector<int>& position, vector<int>& speed) {
-        unordered_set<double> s;
-        double prev = 0;
         
         vector<pair<int, int>> vp;
         for(int i=0;i<speed.size();i++)
             vp.push_back({position[i], speed[i]});
         sort(vp.begin(), vp.end());
         
-        for(int i=vp.size()-1;i>=0;i--){
+        int cnt = 1;
+        double prev = ((double)(target - vp.back().first))/vp.back().second;
+        
+        for(int i=vp.size()-2;i>=0;i--){
             int d = target - vp[i].first;
             double t = (double)d / vp[i].second;
-            if(t < prev)
-                t = prev;
-            prev = t;
-            s.insert(t);
+            // cout << t << ' ' << prev << ' ';
+            if(t > prev){
+                prev = t;
+                cnt++;
+                // cout << "trigger";
+            }
+            // cout << '\n';
         }
-        return s.size();
+        return cnt;
     }
 };
 
