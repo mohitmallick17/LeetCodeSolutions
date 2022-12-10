@@ -11,16 +11,29 @@
  */
 class Solution {
 public:
-    long res = 0, total = 0, sub;
-    int maxProduct(TreeNode* root) {
-        total = s(root), s(root);
-        return res % (int)(1e9 + 7);
+    long long ans = INT_MIN;
+    long long s;
+    
+    long long solve(TreeNode* root){
+        if(!root)return 0;
+        long long lsum = solve(root->left);
+        long long rsum = solve(root->right);
+        int subtree_sum = root->val + lsum + rsum;
+        
+        ans = max(ans, subtree_sum*(s-subtree_sum));
+        
+        return lsum + rsum + root->val;
     }
-
-    int s(TreeNode* root) {
-        if (!root) return 0;
-        sub = root->val + s(root->left) + s(root->right);
-        res = max(res, sub * (total - sub));
-        return sub;
+    long long getSum(TreeNode* root){
+        if(!root)return 0;
+        long long lsum = solve(root->left);
+        long long rsum = solve(root->right);
+        return lsum + rsum + root->val;
+    }
+public:
+    int maxProduct(TreeNode* root) {
+        s = getSum(root);
+        solve(root);
+        return ans%1000000007;
     }
 };
