@@ -8,150 +8,34 @@ using namespace std;
 // } Driver Code Ends
 //User function Template for C++
 
-class Solution{   
+int dirs[] = {0,1,0,-1,0};
+class Solution{
+    void dfs(int i, int j, vector<vector<bool>> &v, int m, int n, vector<vector<int>> &mat, int height){
+        if(i<0 or j<0 or i==m or j==n or v[i][j] or mat[i][j] < height)return;
+        v[i][j]=true;
+        for(int d=0;d<4;d++){
+            dfs(i+dirs[d], j+dirs[d+1], v, m, n, mat, mat[i][j]);
+        }
+    }
 public:
-    int water_flow(vector<vector<int>> &mat,int n,int m)
-
-    {
-
-        vector<vector<bool>> first(n,vector<bool> (m,false));
-
-        queue<pair<int,int>> Q;
-
-        for(int i=0;i<n;i++)
-
-        {
-
-            Q.push({i,0});
-
-        }
-
-        for(int j=0;j<m;j++)
-
-        {
-
-            Q.push({0,j});
-
-        }
-
+    int water_flow(vector<vector<int>> &mat,int m,int n){
+        vector<vector<bool>> pacific(m, vector<bool>(n, false)), atlantic(m, vector<bool>(n, false));
         
-
-        while(Q.size()>0)
-
-        {
-
-            pair<int,int> p=Q.front();
-
-            Q.pop();
-
-            int i=p.first;
-
-            int j=p.second;
-
-            if(first[i][j]==true)
-
-                continue;
-
-            first[i][j]=true;
-
-            if(i-1>=0 && mat[i-1][j]>=mat[i][j])
-
-                Q.push({i-1,j});
-
-            if(i+1<n && mat[i+1][j]>=mat[i][j])
-
-                Q.push({i+1,j});
-
-            if(j-1>=0 && mat[i][j-1]>=mat[i][j])
-
-                Q.push({i,j-1});
-
-            if(j+1<m && mat[i][j+1]>=mat[i][j])
-
-                Q.push({i,j+1});
-
+        for(int i=0;i<m;i++){
+            dfs(i, 0, pacific, m, n,mat,mat[i][0]);
+            dfs(i, n-1, atlantic, m, n,mat,mat[i][n-1]);
         }
-
-        
-
-        vector<vector<bool>> second(n,vector<bool> (m,false));
-
-        for(int i=0;i<n;i++)
-
-        {
-
-            Q.push({i,m-1});
-
+        for(int i=0;i<n;i++){
+            dfs(0, i, pacific, m, n,mat,mat[0][i]);
+            dfs(m-1, i, atlantic, m, n,mat,mat[m-1][i]);
         }
-
-        for(int j=0;j<m;j++)
-
-        {
-
-            Q.push({n-1,j});
-
-        }
-
-        
-
-        while(Q.size()>0)
-
-        {
-
-            pair<int,int> p=Q.front();
-
-            Q.pop();
-
-            int i=p.first;
-
-            int j=p.second;
-
-            if(second[i][j]==true)
-
-                continue;
-
-            second[i][j]=true;
-
-            if(i-1>=0 && mat[i-1][j]>=mat[i][j])
-
-                Q.push({i-1,j});
-
-            if(i+1<n && mat[i+1][j]>=mat[i][j])
-
-                Q.push({i+1,j});
-
-            if(j-1>=0 && mat[i][j-1]>=mat[i][j])
-
-                Q.push({i,j-1});
-
-            if(j+1<m && mat[i][j+1]>=mat[i][j])
-
-                Q.push({i,j+1});
-
-        }
-
-        
-
-        int ans=0;
-
-        for(int i=0;i<n;i++)
-
-        {
-
-            for(int j=0;j<m;j++)
-
-            {
-
-                if(first[i][j]&&second[i][j])
-
-                    ans++;
-
+        int res=0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(pacific[i][j] && atlantic[i][j])res++;
             }
-
         }
-
-        return ans;
-
+        return res;
     }
 };
 
